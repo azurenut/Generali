@@ -24,7 +24,7 @@
     "companyprefix": {
       "type": "string",
       "metadata": {
-        "description": "Company Name"
+        "description": "The Company Name"
       }
 
     },

@@ -42,7 +42,7 @@
   "variables": {
     "configuration": {
       "NSGURL": "[concat(parameters('templatesBaseUrl'),'/nested/NSG.json')]",
-      "vneturl": "[concat(parameters('templatesBaseUrl'),'/nested/virtualNetwork.json')]"
+      "vneturl": "[concat(parameters('templatesBaseUrl'),'/nested/VirtualNetwork.json')]"
 
     }
 
@@ -113,11 +113,16 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2017-05-10",
       "resourceGroup": "GENERALIVNET",
+      "dependsOn": [
+        "Microsoft.Resources/deployments/Subnet1NSG",
+        "Microsoft.Resources/deployments/Subnet2NSG"
+      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
           "uri": "[variables('Configuration').vneturl]",
           "contentVersion": "1.0.0.0"
+
         },
         "parameters": {
           "location": {
