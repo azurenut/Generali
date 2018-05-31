@@ -65,7 +65,7 @@
         "accountType": "Standard_LRS"
       }
     },
-    
+
     {
       "apiVersion": "2015-06-15",
       "name": "loadBalancer",
@@ -164,7 +164,12 @@
             "version": "latest"
           },
           "osDisk": {
-            "createOption": "FromImage"
+            "name": "[concat(parameters('vmname'),'OSDISK')]",
+            "createOption": "FromImage",
+            "managedDisk": {
+              "storageAccountType": "Standard_LRS"
+            },
+            "caching": "ReadWrite"
           }
         },
         "networkProfile": {
