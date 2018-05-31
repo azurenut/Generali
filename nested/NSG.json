@@ -1,0 +1,52 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "type": "string"
+    },
+    "company": {
+      "type": "string"
+    },
+    "project": {
+      "type": "string"
+    },
+    "companyprefix": {
+      "type": "string"
+    },
+    "subnetname": {
+      "type": "string"
+    }
+  },
+  "variables": {
+    "SubnetNSGName": "[concat(parameters('companyprefix'),parameters('subnetname'),'nsg')]"
+  },
+  "resources": [
+    {
+      "apiVersion": "[providers('Microsoft.Network','networkSecurityGroups').apiVersions[0]]",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "name": "[variables('SubnetNSGName')]",
+      "tags": {
+        "resourcename": "[variables('SubnetNSGName')]",
+        "tier": "Microsoft.Network/networkSecurityGroups",
+        "cloudregion": "[parameters('location')]",
+        "company": "[parameters('company')]",
+        "project": "[parameters('project')]"
+      },
+      "location": "[parameters('location')]",
+      "properties": {
+        "securityRules": [
+          
+        ]
+      }
+    }
+
+  ],
+  "outputs": {
+    "nsgID": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.Network/networkSecurityGroups',variables('SubnetNSGName'))]"
+    }
+  }
+
+}
