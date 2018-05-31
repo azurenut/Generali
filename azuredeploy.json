@@ -1,8 +1,168 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
-  "parameters": {},
-  "variables": {},
-  "resources": [],
+  "parameters": {
+    "templatesBaseUrl": {
+      "type": "string",
+      "metadata": {
+        "description": "Linked Templates base url"
+      }
+    },
+    "location": {
+      "type": "string"
+    },
+    "company": {
+      "type": "string"
+    },
+    "project": {
+      "type": "string"
+    },
+    "companyprefix": {
+      "type": "string"
+    },
+    "subnet1name": {
+      "type": "string"
+    },
+    "subnet2name": {
+      "type": "string"
+    },
+    "VNetAddressPrefix": {
+      "type": "string"
+    },
+    "subnetPrefix1": {
+      "type": "string"
+    },
+    "subnetPrefix2": {
+      "type": "string"
+    },
+    "gatewaySubnetPrefix": {
+      "type": "string"
+    }
+  },
+  "variables": {
+    "configuration": {
+      "NSGURL": "[concat(parameters('templatesBaseUrl'),'/nested/NSG.json')]",
+      "vneturl": "[concat(parameters('templatesBaseUrl'),'/nested/virtualNetwork.json')]"
+
+    }
+
+  },
+  "resources": [
+    {
+      "name": "Subnet1NSG",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2017-05-10",
+      "resourceGroup": "GENERALIVNET",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('Configuration').NSGURL]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "company": {
+            "value": "[parameters('company')]"
+          },
+          "companyprefix": {
+            "value": "[parameters('companyprefix')]"
+          },
+          "project": {
+            "value": "[parameters('project')]"
+          },
+          "subnetname": {
+            "value": "[parameters('subnet1name')]"
+          }
+        }
+      }
+    },
+    {
+      "name": "Subnet2NSG",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2017-05-10",
+      "resourceGroup": "GENERALIVNET",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('Configuration').NSGURL]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "company": {
+            "value": "[parameters('company')]"
+          },
+          "companyprefix": {
+            "value": "[parameters('companyprefix')]"
+          },
+          "project": {
+            "value": "[parameters('project')]"
+          },
+          "subnetname": {
+            "value": "[parameters('subnet2name')]"
+          }
+        }
+      }
+    },
+    {
+      "name": "VirtualNetwork",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2017-05-10",
+      "resourceGroup": "GENERALIVNET",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('Configuration').vneturl]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "company": {
+            "value": "[parameters('company')]"
+          },
+          "project": {
+            "value": "[parameters('project')]"
+          },
+          "companyprefix": {
+            "value": "[parameters('companyprefix')]"
+          },
+          "azureVNetAddressPrefix": {
+            "value": "[parameters('VNetAddressPrefix')]"
+          },
+          "subnetName1": {
+            "value": "[parameters('subnet1name')]"
+          },
+          "subnetPrefix1": {
+            "value": "[parameters('subnetPrefix1')]"
+          },
+          "subnetName2": {
+            "value": "[parameters('subnet2name')]"
+          },
+          "subnetPrefix2": {
+            "value": "[parameters('subnetPrefix2')]"
+          },
+          "gatewaySubnetPrefix": {
+            "value": "[parameters('gatewaySubnetPrefix')]"
+          },
+          "subnet1nsgID": {
+            "value": "[reference('Subnet1NSG').outputs.nsgID.value]"
+          },
+          "subnet2nsgID": {
+            "value": "[reference('Subnet2NSG').outputs.nsgID.value]"
+          }
+        }
+      }
+    }
+
+
+
+
+  ],
   "outputs": {}
 }

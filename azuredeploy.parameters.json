@@ -2,5 +2,38 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "templatesBaseUrl": {
+      "value": "https://raw.githubusercontent.com/azurenut/Generali/master"
+    },
+    "location": {
+      "value": "North Europe"
+    },
+    "company": {
+      "value": "Generali"
+    },
+    "project": {
+      "value": "Azure IT"
+    },
+    "companyprefix": {
+      "value": "generali"
+    },
+    "subnet1name": {
+      "value": "Infrastructure"
+    },
+    "subnet2name": {
+      "value": "DMZ"
+    },
+    "VNetAddressPrefix": {
+      "value": "172.16.0.0/16"
+    },
+    "subnetPrefix1": {
+      "value": "172.16.0.0/24"
+    },
+    "subnetPrefix2": {
+      "value": "172.16.200.0/24"
+    },
+    "gatewaySubnetPrefix": {
+      "value": "172.16.254.0/27"
+    }
   }
 }
