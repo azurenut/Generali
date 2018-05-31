@@ -49,7 +49,7 @@
       "value": "standard_d1_v2"
     },
     "RDPPort": {
-      "value": "50001"
+      "value": 50001
     },
     "keyvaultID": {
       "value": "/subscriptions/063d2cae-5729-491c-b81f-22d422ba9c67/resourceGroups/GENERALIKEYVAULT/providers/Microsoft.KeyVault/vaults/generalikv"

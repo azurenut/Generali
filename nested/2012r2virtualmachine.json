@@ -9,7 +9,7 @@
         "description": "The name of the VM"
       }
     },
-    "vnetname": {
+    "vnetid": {
       "type": "string"
     },
     "subnetname": {
@@ -40,7 +40,7 @@
     }
   },
   "variables": {
-    "subnet-id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('vnetname')),'/subnets/',parameters('subnetName'))]",
+    "subnet-id": "[concat(parameters('vnetID'),'/subnets/', parameters('SubnetName'))]",
     "storageAccountName": "[concat(uniquestring(resourceGroup().id), 'diags')]",
     "imagePublisher": "MicrosoftWindowsServer",
     "imageOffer": "WindowsServer",

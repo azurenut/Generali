@@ -86,8 +86,8 @@
           "vmName": {
             "value": "[parameters('server1name')]"
           },
-          "vnetname": {
-            "value": "[reference('VirtualNetwork').outputs.VNetName.value]"
+          "vnetid": {
+            "value": "[reference('VirtualNetwork').outputs.VNetID.value]"
           },
           "subnetname": {
             "value": "[parameters('subnet1name')]"
