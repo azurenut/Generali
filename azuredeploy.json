@@ -37,22 +37,96 @@
     },
     "gatewaySubnetPrefix": {
       "type": "string"
+    },
+    "VNETRG": {
+      "type": "string"
+    },
+    "SERVERRG": {
+      "type": "string"
+    },
+    "server1name": {
+      "type": "string"
+    },
+    "vmsize": {
+      "type": "string"
+    },
+    "RDPPort": {
+      "type": "int"
+    },
+    "keyvaultID": {
+      "type": "string"
     }
   },
   "variables": {
     "configuration": {
       "NSGURL": "[concat(parameters('templatesBaseUrl'),'/nested/NSG.json')]",
-      "vneturl": "[concat(parameters('templatesBaseUrl'),'/nested/VirtualNetwork.json')]"
+      "vneturl": "[concat(parameters('templatesBaseUrl'),'/nested/VirtualNetwork.json')]",
+      "vm2012r2url": "[concat(parameters('templatesBaseUrl'),'/nested/2012r2virtualmachine.json')]",
+      "vm2016url": "[concat(parameters('templatesBaseUrl'),'/nested/2016virtualmachine.json')]"
 
     }
 
   },
   "resources": [
     {
+      "name": "SERVER1",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2017-05-10",
+      "resourceGroup": "[parameters('SERVERRG')]",
+      "dependsOn": [
+        "Microsoft.Resources/deployments/VirtualNetwork"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('Configuration').vm2012r2url]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "vmName": {
+            "value": "[parameters('server1name')]"
+          },
+          "vnetname": {
+            "value": "[reference('VirtualNetwork').outputs.VNetName.value]"
+          },
+          "subnetname": {
+            "value": "[parameters('subnet1name')]"
+          },
+          "vmsize": {
+            "value": "[parameters('vmsize')]"
+          },
+          "adminUsername": {
+            "reference": {
+              "keyVault": {
+                "id": "[parameters('keyVaultID')]"
+              },
+              "secretname": "vmadminusername"
+            }
+
+          },
+          "adminPassword": {
+            "reference": {
+              "keyVault": {
+                "id": "[parameters('keyVaultID')]"
+              },
+              "secretname": "vmadminpassword"
+            }
+
+          },
+          "rdpPort": {
+            "value": "[parameters('RDPPort')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          }
+        }
+      }
+    },
+    {
       "name": "Subnet1NSG",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2017-05-10",
-      "resourceGroup": "GENERALIVNET",
+      "resourceGroup": "[parameters('VNETRG')]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -82,7 +156,7 @@
       "name": "Subnet2NSG",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2017-05-10",
-      "resourceGroup": "GENERALIVNET",
+      "resourceGroup": "[parameters('VNETRG')]",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -112,7 +186,7 @@
       "name": "VirtualNetwork",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2017-05-10",
-      "resourceGroup": "GENERALIVNET",
+      "resourceGroup": "[parameters('VNETRG')]",
       "dependsOn": [
         "Microsoft.Resources/deployments/Subnet1NSG",
         "Microsoft.Resources/deployments/Subnet2NSG"

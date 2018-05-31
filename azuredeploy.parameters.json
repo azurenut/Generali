@@ -34,6 +34,25 @@
     },
     "gatewaySubnetPrefix": {
       "value": "172.16.254.0/27"
+    },
+
+    "VNETRG": {
+      "value": "GENERALIVNET"
+    },
+    "SERVERRG": {
+      "value": "GENERALISERVERS"
+    },
+    "server1name": {
+      "value": "generalivm1"
+    },
+    "vmsize": {
+      "value": "standard_d1_v2"
+    },
+    "RDPPort": {
+      "value": "50001"
+    },
+    "keyvaultID": {
+      "value": "/subscriptions/063d2cae-5729-491c-b81f-22d422ba9c67/resourceGroups/GENERALIKEYVAULT/providers/Microsoft.KeyVault/vaults/generalikv"
     }
   }
 }
