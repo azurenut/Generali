@@ -19,6 +19,9 @@
     },
     "project": {
       "type": "string"
+    },
+    "vpngwsku": {
+      "type": "string"
     }
   },
   "variables": {
@@ -74,9 +77,15 @@
               "name": "vnetGatewayConfig1"
             }
           ],
+          "sku": {
+            "name": "[parameters('vpngwsku')]",
+            "tier": "[parameters('vpngwsku')]"
+          },
           "gatewayType": "Vpn",
           "vpnType": "[parameters('vpntype')]",
           "enableBgp": "false"
+          
+
         }
       }
     ],

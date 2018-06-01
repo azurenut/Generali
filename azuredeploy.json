@@ -68,7 +68,7 @@
     "HQSiteName": {
       "type": "string"
     },
-    "HQPreSharedKey": {
+    "vpngwsku": {
       "type": "string"
     }
   },
@@ -288,6 +288,9 @@
           },
           "project": {
             "value": "[parameters('project')]"
+          },
+          "vpngwsku": {
+            "value": "[parameters('vpngwsku')]"
           }
         }
       }
@@ -357,7 +360,7 @@
             "value": "[reference('VirtualNetworkGateway').outputs.gatewayID.value]"
           },
           "localGWid": {
-            "value": "[reference('HQLocalNetworkID').outputs.gatewayName.value]"
+            "value": "[reference('HQLocalNetworkGateway').outputs.gatewayID.value]"
           }
         }
       }
