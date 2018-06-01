@@ -18,6 +18,9 @@
     "vmsize": {
       "type": "string"
     },
+    "imageSku": {
+      "type": "string"
+    },
     "adminUsername": {
       "type": "securestring"
 
@@ -44,13 +47,13 @@
     "storageAccountName": "[concat(uniquestring(resourceGroup().id), 'diags')]",
     "imagePublisher": "MicrosoftWindowsServer",
     "imageOffer": "WindowsServer",
-    "imageSku": "2012-R2-Datacenter"
+    "imageSku": "[parameters('imagesku')]"
   },
   "resources": [
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/publicIPAddresses",
-      "name": "publicIp",
+      "name": "[concat(toLower(parameters('vmName')),'-lb-pip')]",
       "location": "[parameters('location')]",
       "properties": {
         "publicIPAllocationMethod": "Dynamic"
@@ -68,11 +71,11 @@
 
     {
       "apiVersion": "2015-06-15",
-      "name": "loadBalancer",
+      "name": "[concat(toLower(parameters('vmName')),'-lb')]",
       "type": "Microsoft.Network/loadBalancers",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "Microsoft.Network/publicIPAddresses/publicIp"
+        "[concat('Microsoft.Network/publicIPAddresses/',concat(toLower(parameters('vmName')),'-lb-pip'))]"
       ],
       "properties": {
         "frontendIPConfigurations": [
@@ -80,7 +83,7 @@
             "name": "LBFE",
             "properties": {
               "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses','publicIp')]"
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses',concat(toLower(parameters('vmName')),'-lb-pip'))]"
               }
             }
           }
@@ -95,7 +98,7 @@
             "name": "rdp",
             "properties": {
               "frontendIPConfiguration": {
-                "id": "[concat(resourceId('Microsoft.Network/loadBalancers','loadBalancer'),'/frontendIPConfigurations/LBFE')]"
+                "id": "[concat(resourceId('Microsoft.Network/loadBalancers',toLower(parameters('vmName')),'-lb'),'/frontendIPConfigurations/LBFE')]"
               },
               "protocol": "tcp",
               "frontendPort": "[parameters('rdpPort')]",
@@ -112,7 +115,7 @@
       "name": "[concat(toLower(parameters('vmName')),'-nic')]",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "Microsoft.Network/loadBalancers/loadBalancer"
+        "[concat('Microsoft.Network/loadBalancers/',concat(toLower(parameters('vmName')),'-lb'))]"
       ],
       "properties": {
         "ipConfigurations": [
@@ -125,12 +128,12 @@
               },
               "loadBalancerBackendAddressPools": [
                 {
-                  "id": "[concat(resourceId('Microsoft.Network/loadBalancers','loadBalancer'),'/backendAddressPools/LBBAP')]"
+                  "id": "[concat(resourceId('Microsoft.Network/loadBalancers',toLower(parameters('vmName')),'-lb'),'/backendAddressPools/LBBAP')]"
                 }
               ],
               "loadBalancerInboundNatRules": [
                 {
-                  "id": "[concat(resourceId('Microsoft.Network/loadBalancers','loadBalancer'),'/inboundNatRules/rdp')]"
+                  "id": "[concat(resourceId('Microsoft.Network/loadBalancers',toLower(parameters('vmName')),'-lb'),'/inboundNatRules/rdp')]"
                 }
               ]
             }

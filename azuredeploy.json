@@ -70,6 +70,9 @@
     },
     "vpngwsku": {
       "type": "string"
+    },
+    "imageSku": {
+      "type": "string"
     }
   },
   "variables": {
@@ -79,8 +82,7 @@
       "vpnconnectionURL": "[concat(parameters('templatesBaseUrl'),'/nested/VPNConnection.json')]",
       "localgatewayURL": "[concat(parameters('templatesBaseUrl'),'/nested/LocalGateway.json')]",
       "vneturl": "[concat(parameters('templatesBaseUrl'),'/nested/VirtualNetwork.json')]",
-      "vm2012r2url": "[concat(parameters('templatesBaseUrl'),'/nested/2012r2virtualmachine.json')]",
-      "vm2016url": "[concat(parameters('templatesBaseUrl'),'/nested/2016virtualmachine.json')]"
+      "vmurl": "[concat(parameters('templatesBaseUrl'),'/nested/virtualmachine1disk.json')]"]"
 
     }
 
@@ -97,7 +99,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[variables('Configuration').vm2012r2url]",
+          "uri": "[variables('Configuration').vmurl]",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
