@@ -2,12 +2,33 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-
+    "location": {
+      "type": "string"
+    },
+    "addressPrefixes": {
+      "type": "array"
+    },
+    "gatewayIPAddress": {
+      "type" : "string"
+    }
   },
   "variables": {
+    "localNetworkGatewayName": ""
+
   },
   "resources": [
-    
+    {
+      "name": "[variables('localNetworkGatewayName')]",
+      "type": "Microsoft.Network/localNetworkGateways",
+      "apiVersion": "[providers('Microsoft.Network','localNetworkGateways').apiVersions[0]]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "localNetworkAddressSpace": {
+          "addressPrefixes": "[parameters('addressPrefixes')]"
+        },
+        "gatewayIpAddress": "[parameters('gatewayIpAddress')]"
+      }
+    }
   ],
   "outputs": {
 

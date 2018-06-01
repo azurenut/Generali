@@ -56,6 +56,14 @@
     },
     "keyvaultID": {
       "value": "/subscriptions/063d2cae-5729-491c-b81f-22d422ba9c67/resourceGroups/GENERALIKEYVAULT/providers/Microsoft.KeyVault/vaults/generalikv"
+    },
+    "HQlocaladdresses": {
+      "value": [
+        "10.50.10.0/24"
+      ]
+    },
+    "HQGatewayAddress": {
+      "value": "84.32.12.12"
     }
   }
 }

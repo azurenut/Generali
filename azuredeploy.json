@@ -58,12 +58,19 @@
     },
     "keyvaultID": {
       "type": "string"
+    },
+    "HQlocaladdresses": {
+      "type": "array"
+    },
+    "HQGatewayAddress": {
+      "type": "string"
     }
   },
   "variables": {
     "configuration": {
       "NSGURL": "[concat(parameters('templatesBaseUrl'),'/nested/NSG.json')]",
       "vpngatewayURL": "[concat(parameters('templatesBaseUrl'),'/nested/VPNGateway.json')]",
+      "localgatewayURL": "[concat(parameters('templatesBaseUrl'),'/nested/LocalGateway.json')]",
       "vneturl": "[concat(parameters('templatesBaseUrl'),'/nested/VirtualNetwork.json')]",
       "vm2012r2url": "[concat(parameters('templatesBaseUrl'),'/nested/2012r2virtualmachine.json')]",
       "vm2016url": "[concat(parameters('templatesBaseUrl'),'/nested/2016virtualmachine.json')]"
@@ -247,6 +254,9 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2017-05-10",
       "resourceGroup": "[parameters('VNETRG')]",
+      "dependsOn": [
+        "Microsoft.Resources/deployments/VirtualNetwork"
+      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -271,6 +281,31 @@
           },
           "project": {
             "value": "[parameters('project')]"
+          }
+        }
+      }
+    },
+    {
+      "name": "HQLocalNetworkGateway",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2017-05-10",
+      "resourceGroup": "[parameters('VNETRG')]",
+
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('Configuration').localgatewayURL]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "addressPrefixes": {
+            "value": "[parameters('HQlocaladdresses')]"
+          },
+          "gatewayIPAddress": {
+            "value": "[parameters('HQGatewayAddress')]"
           }
         }
       }
