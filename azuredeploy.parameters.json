@@ -64,6 +64,12 @@
     },
     "HQGatewayAddress": {
       "value": "84.32.12.12"
+    },
+    "HQSiteName": {
+      "value": "GeneraliNavan"
+    },
+    "HQPreSharedKey": {
+      "type": "string"
     }
   }
 }

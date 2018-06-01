@@ -1,0 +1,59 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "type": "string"
+    },
+    "VPNGatewayName": {
+      "type": "string"
+    },
+    "LocalNetworkGatewayName": {
+      "type": "string"
+    },
+    "sharedKey": {
+      "type": "string"
+    },
+    "vnetGWid": {
+      "type": "string"
+    },
+    "localGWid": {
+      "type": "string"
+    }
+  },
+  "variables": {
+    "ConnectionName": "[concat(parameters('VPNGatewayName'),'-to-',parameters('LocalNetworkGatewayName'))]"
+
+  },
+  "resources": [
+    {
+      "apiVersion": "[providers('Microsoft.Network','connections').apiVersions[0]]",
+      "name": "[variables('connectionName')]",
+      "type": "Microsoft.Network/connections",
+      "location": "[parameters('location')]",
+
+      "properties": {
+        "virtualNetworkGateway1": {
+          "id": "[parameters('vnetGWid')]"
+        },
+        "localNetworkGateway2": {
+          "id": "[parameters('localGWid')]"
+        },
+        "ipsecpolicies": [
+          {
+            "ipsecEncryption": "AES256",
+            "ipsecIntegrity": "SHA256",
+            "ikeEncryption": "AES256",
+            "ikeIntegrity": "SHA256",
+            "dhGroup": "DHGroup2",
+            "pfsGroup": "PFS24"
+          }
+        ],
+        "connectionType": "IPsec",
+        "routingWeight": 10,
+        "sharedKey": "[parameters('sharedKey')]"
+
+      }
+    }
+  ]
+}

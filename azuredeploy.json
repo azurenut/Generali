@@ -64,12 +64,19 @@
     },
     "HQGatewayAddress": {
       "type": "string"
+    },
+    "HQSiteName": {
+      "type": "string"
+    },
+    "HQPreSharedKey": {
+      "type": "string"
     }
   },
   "variables": {
     "configuration": {
       "NSGURL": "[concat(parameters('templatesBaseUrl'),'/nested/NSG.json')]",
       "vpngatewayURL": "[concat(parameters('templatesBaseUrl'),'/nested/VPNGateway.json')]",
+      "vpnconnectionURL": "[concat(parameters('templatesBaseUrl'),'/nested/VPNConnection.json')]",
       "localgatewayURL": "[concat(parameters('templatesBaseUrl'),'/nested/LocalGateway.json')]",
       "vneturl": "[concat(parameters('templatesBaseUrl'),'/nested/VirtualNetwork.json')]",
       "vm2012r2url": "[concat(parameters('templatesBaseUrl'),'/nested/2012r2virtualmachine.json')]",
@@ -301,6 +308,9 @@
           "location": {
             "value": "[parameters('location')]"
           },
+          "SiteName": {
+            "value": "[parameters('HQSiteName')]"
+          },
           "addressPrefixes": {
             "value": "[parameters('HQlocaladdresses')]"
           },
@@ -309,7 +319,50 @@
           }
         }
       }
+    },
+    {
+      "name": "HQVPNConnection",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2017-05-10",
+      "resourceGroup": "[parameters('VNETRG')]",
+      "dependsOn": [
+        "Microsoft.Resources/deployments/VirtualNetworkGateway",
+        "Microsoft.Resources/deployments/HQLocalNetworkGateway"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('Configuration').vpnconnectionURL]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "VPNGatewayName": {
+            "value": "[reference('VirtualNetworkGateway').outputs.gatewayName.value]"
+          },
+          "LocalNetworkGatewayName": {
+            "value": "[reference('HQLocalNetworkGateway').outputs.gatewayName.value]"
+          },
+          "sharedKey": {
+            "reference": {
+              "keyVault": {
+                "id": "[parameters('keyVaultID')]"
+              },
+              "secretname": "hqpresharedkey"
+            }
+          },
+          "vnetGWid": {
+            "value": "[reference('VirtualNetworkGateway').outputs.gatewayID.value]"
+          },
+          "localGWid": {
+            "value": "[reference('HQLocalNetworkID').outputs.gatewayName.value]"
+          }
+        }
+      }
     }
+
 
 
 

@@ -5,6 +5,9 @@
     "location": {
       "type": "string"
     },
+    "SiteName": {
+      "type" :  "string"
+    },
     "addressPrefixes": {
       "type": "array"
     },
@@ -13,7 +16,7 @@
     }
   },
   "variables": {
-    "localNetworkGatewayName": ""
+    "localNetworkGatewayName": "[concat(parameters('SiteName'),'LNG')]"
 
   },
   "resources": [
@@ -31,7 +34,14 @@
     }
   ],
   "outputs": {
-
+    "gatewayID": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.Network/localNetworkGateways',variables('localNetworkGatewayName'))]"
+    },
+    "gatewayName": {
+      "type": "string",
+      "value": "[variables('localNetworkGatewayName')]"
+    }
   }
 
 }

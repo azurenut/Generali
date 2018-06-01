@@ -80,8 +80,15 @@
         }
       }
     ],
-    "outputs": {
-
+  "outputs": {
+    "gatewayID": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.Network/virtualNetworkGateways',variables('gatewayname'))]"
+    },
+    "gatewayName": {
+      "type": "string",
+      "value": "[variables('gatewayname')]"
     }
+  }
 
   }
