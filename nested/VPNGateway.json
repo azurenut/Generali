@@ -1,0 +1,87 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "type": "string"
+    },
+    "vnetname": {
+      "type": "string"
+    },
+    "vnetID": {
+      "type": "string"
+    },
+    "vpntype": {
+      "type": "string"
+    },
+    "company": {
+      "type": "string"
+    },
+    "project": {
+      "type": "string"
+    }
+  },
+  "variables": {
+    "GatewayName": "[concat(parameters('vnetname'),'GW')]",
+    "GatewayPIPName": "[concat(variables('GatewayName'),'-PIP')]",
+    "GWSubnetRef": "[concat(parameters('vnetID'),'/subnets/', 'GatewaySubnet')]"
+
+  },
+    "resources": [
+      {
+        "apiVersion": "2015-05-01-preview",
+        "type": "Microsoft.Network/publicIPAddresses",
+        "name": "[variables('GatewayPIPName')]",
+        "location": "[parameters('location')]",
+        "tags": {
+          "resourcename": "[variables('GatewayPIPName')]",
+          "tier": "Microsoft.Network/publicIPAddresses",
+          "cloudregion": "[parameters('location')]",
+          "company": "[parameters('company')]",
+          "project": "[parameters('project')]"
+        },
+        "properties": {
+          "publicIPAllocationMethod": "Dynamic"
+        }
+      },
+      {
+        "apiVersion": "2015-05-01-preview",
+        "type": "Microsoft.Network/virtualNetworkGateways",
+        "name": "[variables('GatewayName')]",
+        "location": "[parameters('location')]",
+        "tags": {
+          "resourcename": "[variables('GatewayName')]",
+          "tier": "Microsoft.Network/virtualNetworkGateways",
+          "cloudregion": "[parameters('location')]",
+          "company": "[parameters('company')]",
+          "project": "[parameters('project')]"
+        },
+        "dependsOn": [
+          "[concat('Microsoft.Network/publicIPAddresses/', variables('GatewayPIPName'))]"
+        ],
+        "properties": {
+          "ipConfigurations": [
+            {
+              "properties": {
+                "privateIPAllocationMethod": "Dynamic",
+                "subnet": {
+                  "id": "[variables('GWSubnetRef')]"
+                },
+                "publicIPAddress": {
+                  "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('GatewayPIPName'))]"
+                }
+              },
+              "name": "vnetGatewayConfig1"
+            }
+          ],
+          "gatewayType": "Vpn",
+          "vpnType": "[parameters('vpntype')]",
+          "enableBgp": "false"
+        }
+      }
+    ],
+    "outputs": {
+
+    }
+
+  }

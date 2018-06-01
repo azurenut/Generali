@@ -24,16 +24,16 @@
       "value": "DMZ"
     },
     "VNetAddressPrefix": {
-      "value": "172.16.0.0/16"
+      "value": "10.50.50.0/24"
     },
     "subnetPrefix1": {
-      "value": "172.16.0.0/24"
+      "value": "10.50.50.0/27"
     },
     "subnetPrefix2": {
-      "value": "172.16.200.0/24"
+      "value": "10.50.50.32/27"
     },
     "gatewaySubnetPrefix": {
-      "value": "172.16.254.0/27"
+      "value": "10.50.50.240/28"
     },
 
     "VNETRG": {
@@ -47,6 +47,9 @@
     },
     "vmsize": {
       "value": "standard_d1_v2"
+    },
+    "vpntype": {
+      "value": "RouteBased"
     },
     "RDPPort": {
       "value": 50001
