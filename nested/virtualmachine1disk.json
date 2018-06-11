@@ -50,7 +50,8 @@
     "imageSku": "[parameters('imagesku')]",
     "lbname": "[concat(toLower(parameters('vmName')),'-lb')]",
     "lbpipname": "[concat(toLower(parameters('vmName')),'-lb-pip')]",
-    "lbid": "resourceId('Microsoft.Network/loadBalancers', variables('lbName'))"
+    "lbid": "[resourceId('Microsoft.Network/loadBalancers', variables('lbName'))]",
+    "lbfeid" : ""
   },
   "resources": [
     {
