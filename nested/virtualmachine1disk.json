@@ -137,7 +137,7 @@
               ],
               "loadBalancerInboundNatRules": [
                 {
-                  "id": "[concat(concat(variables('lbid'),'/inboundNatRules/rdp')]"
+                  "id": "[concat(variables('lbid'),'/inboundNatRules/rdp')]"
                 }
               ]
             }
