@@ -76,7 +76,7 @@
       "type": "Microsoft.Network/loadBalancers",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Network/publicIPAddresses/',variables('lbname'),'-lb-pip')]"
+        "[concat('Microsoft.Network/publicIPAddresses/',variables('lbname'),'-pip')]"
       ],
       "properties": {
         "frontendIPConfigurations": [
@@ -84,7 +84,7 @@
             "name": "LBFE",
             "properties": {
               "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('lbname'),'-lb-pip')]"
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('lbname'),'-pip')]"
               }
             }
           }
