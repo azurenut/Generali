@@ -72,7 +72,11 @@
       "type": "string"
     },
     "imageSku": {
-      "type": "string"
+      "type": "string",
+      "allowedvalues": [
+        "2012-R2-Datacenter",
+        "2016-Datacenter"
+      ]
     }
   },
   "variables": {
@@ -82,7 +86,7 @@
       "vpnconnectionURL": "[concat(parameters('templatesBaseUrl'),'/nested/VPNConnection.json')]",
       "localgatewayURL": "[concat(parameters('templatesBaseUrl'),'/nested/LocalGateway.json')]",
       "vneturl": "[concat(parameters('templatesBaseUrl'),'/nested/VirtualNetwork.json')]",
-      "vmurl": "[concat(parameters('templatesBaseUrl'),'/nested/virtualmachine1disk.json')]"]"
+      "vmurl": "[concat(parameters('templatesBaseUrl'),'/nested/virtualmachine1disk.json')]"
 
     }
 
