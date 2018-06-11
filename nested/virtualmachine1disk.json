@@ -48,13 +48,14 @@
     "imagePublisher": "MicrosoftWindowsServer",
     "imageOffer": "WindowsServer",
     "imageSku": "[parameters('imagesku')]",
-    "lbname": "[concat(toLower(parameters('vmName')),'-lb')]"
+    "lbname": "[concat(toLower(parameters('vmName')),'-lb')]",
+    "lbpipname": "[concat(toLower(parameters('vmName')),'-lb-pip')]"
   },
   "resources": [
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/publicIPAddresses",
-      "name": "[concat(toLower(parameters('vmName')),'-lb-pip')]",
+      "name": "[variables('lbpipname')]",
       "location": "[parameters('location')]",
       "properties": {
         "publicIPAllocationMethod": "Dynamic"
@@ -84,7 +85,7 @@
             "name": "LBFE",
             "properties": {
               "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses/',concat(variables('lbname'),'-pip'))]"
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses/',variables('lbpipname'))]"
               }
             }
           }
