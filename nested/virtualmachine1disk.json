@@ -98,7 +98,7 @@
             "name": "rdp",
             "properties": {
               "frontendIPConfiguration": {
-                "id": "[concat(resourceId('Microsoft.Network/loadBalancers',toLower(parameters('vmName')),'-lb'),'/frontendIPConfigurations/LBFE')]"
+                "id": "[resourceId('Microsoft.Network/loadBalancers',concat(toLower(parameters('vmName')),'-lb'),'/frontendIPConfigurations/LBFE')]"
               },
               "protocol": "tcp",
               "frontendPort": "[parameters('rdpPort')]",

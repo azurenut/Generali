@@ -142,6 +142,9 @@
           },
           "location": {
             "value": "[parameters('location')]"
+          },
+          "imageSku": {
+            "value": "[parameters('imageSku')]"
           }
         }
       }
