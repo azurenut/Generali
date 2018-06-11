@@ -47,7 +47,8 @@
     "storageAccountName": "[concat(uniquestring(resourceGroup().id), 'diags')]",
     "imagePublisher": "MicrosoftWindowsServer",
     "imageOffer": "WindowsServer",
-    "imageSku": "[parameters('imagesku')]"
+    "imageSku": "[parameters('imagesku')]",
+    "lbname": "[concat(toLower(parameters('vmName')),'-lb')]"
   },
   "resources": [
     {
@@ -98,7 +99,7 @@
             "name": "rdp",
             "properties": {
               "frontendIPConfiguration": {
-                "id": "[concat(resourceId('Microsoft.Network/loadBalancers',concat(toLower(parameters('vmName')),'-lb'),'/frontendIPConfigurations/LBFE'))]"
+                "id": "[concat(resourceId('Microsoft.Network/loadBalancers',variables('lbname'),'/frontendIPConfigurations/LBFE'))]"
               },
               "protocol": "tcp",
               "frontendPort": "[parameters('rdpPort')]",
