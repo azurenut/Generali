@@ -42,11 +42,12 @@
         "ipsecpolicies": [
           {
             "ipsecEncryption": "AES256",
-            "ipsecIntegrity": "SHA256",
+            "ipsecIntegrity": "SHA1",
             "ikeEncryption": "AES256",
-            "ikeIntegrity": "SHA256",
+            "ikeIntegrity": "SHA1",
             "dhGroup": "DHGroup2",
-            "pfsGroup": "PFS24"
+            "pfsGroup": "None",
+            "saLifeTimeSeconds": 28800
           }
         ],
         "connectionType": "IPsec",

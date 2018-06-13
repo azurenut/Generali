@@ -127,6 +127,7 @@
             "name": "ipconfig",
             "properties": {
               "privateIPAllocationMethod": "Dynamic",
+              
               "subnet": {
                 "id": "[variables('subnet-id')]"
               },
