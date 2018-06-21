@@ -14,12 +14,16 @@
     ,  
     "SubnetName": {
       "type": "string"
+    },
+    "templatesource" : {
+      "type" : "string"
     }
 
   },
   "variables": {
    "subnet-id": "[concat(parameters('vnetID'),'/subnets/', parameters('SubnetName'))]",
-   "name" : "[concat(toLower(parameters('vmName')),'-nic')]"
+   "name" : "[concat(toLower(parameters('vmName')),'-nic')]",
+   "updateip_templateUri" : "[concat(parameters('templatessource'),'/nested/updateip.json')]"
   },
   "resources": [
     {
@@ -43,6 +47,32 @@
             }
           }
         ]
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "name": "[concat(‘updateip’)]",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('updateip_templateUri')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "nicName": {
+            "value": "[variables('nicName')]"
+          },
+          "SubnetRef": {
+            "value": "[variables('Subnet-id')]"
+          },
+          "privateIp": {
+            "value": "[reference(concat(‘Microsoft.Network/networkInterfaces/’, variables(‘nicName’))).ipConfigurations[0].properties.privateIPAddress]"
+          }
+        }
       }
     }
 
