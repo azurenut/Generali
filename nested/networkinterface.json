@@ -49,8 +49,8 @@
   ],
   "outputs": {
       "NICIP" :{
-          "type": "string",
-          "value": "[reference(variables('name').ipConfigurations[0].properties.privateIPAddress)]"
+          "type": "object",
+          "value": "[reference(resourceId('Microsoft.Network/networkInterfaces', variables('name')),'2016-09-01')]"
       }
     
   }
