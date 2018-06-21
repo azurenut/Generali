@@ -69,18 +69,6 @@
       "metadata": {
         "description": "CIDR block for gateway subnet, subsset of azureVNetAddressPrefix address space"
       }
-    },
-    "subnet1nsgID": {
-      "type": "string",
-      "metadata": {
-        "description": "ID of Subnet 1 NSG"
-      }
-    },
-    "subnet2nsgID": {
-      "type": "string",
-      "metadata": {
-        "description": "ID of Subnet 2 NSG"
-      }
     }
 
   },
