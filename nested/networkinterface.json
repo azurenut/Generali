@@ -1,0 +1,58 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vmname": {
+      "type": "string"
+    },  
+    "location": {
+      "type": "string"
+    },
+    "vnetID": {
+      "type": "string"
+    }
+    ,  
+    "SubnetName": {
+      "type": "string"
+    }
+
+  },
+  "variables": {
+   "subnet-id": "[concat(parameters('vnetID'),'/subnets/', parameters('SubnetName'))]",
+   "name" : "[concat(toLower(parameters('vmName')),'-nic')]"
+  },
+  "resources": [
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[variables('name')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        
+      ],
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              
+              "subnet": {
+                "id": "[variables('subnet-id')]"
+              }
+            }
+          }
+        ]
+      }
+    }
+
+  ],
+  "outputs": {
+      "NICIP" :{
+          "type": "string",
+          "value": "[reference(variables('name').ipConfigurations[0].properties.privateIPAddress]"
+      }
+    
+  }
+
+}

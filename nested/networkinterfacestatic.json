@@ -1,0 +1,57 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vmname": {
+      "type": "string"
+    },  
+    "location": {
+      "type": "string"
+    }
+    ,  
+    "IPAddress": {
+      "type": "string"
+    },
+    "vnetID": {
+      "type": "string"
+    }
+    ,  
+    "SubnetName": {
+      "type": "string"
+    }
+    
+  },
+  "variables": {
+   "subnet-id": "[concat(parameters('vnetID'),'/subnets/', parameters('SubnetName'))]"
+  },
+  "resources": [
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[concat(toLower(parameters('vmName')),'-nic')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        
+      ],
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig",
+            "properties": {
+              "privateIPAllocationMethod": "Static",
+              "privateIPAddress": "[parameters('IPAddress')]",
+              "subnet": {
+                "id": "[variables('subnet-id')]"
+              }
+            }
+          }
+        ]
+      }
+    }
+
+  ],
+  "outputs": {
+    
+  }
+
+}
