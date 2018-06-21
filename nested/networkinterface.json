@@ -50,7 +50,7 @@
   "outputs": {
       "NICIP" :{
           "type": "string",
-          "value": "[reference(variables('name').ipConfigurations[0].properties.privateIPAddress]"
+          "value": "[reference(variables('name').ipConfigurations[0].properties.privateIPAddress)]"
       }
     
   }
